@@ -6,10 +6,10 @@
 package javagame;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -17,7 +17,7 @@ import javax.swing.WindowConstants;
  *
  * @author Basil
  */
-public class JavaGame {
+public class JavaGame{
     
     public static void main(String[] args) {
         
@@ -29,10 +29,11 @@ public class JavaGame {
         window.setSize(640, 480);
         main.setLayout(new BorderLayout());
         board playArea = new board();
+        playArea.setFocusable(true);
         playArea.setBoard();
         JPanel control = new JPanel();
         main.add(playArea, BorderLayout.CENTER);
-        JButton leftBtn = new JButton();
+        /*JButton leftBtn = new JButton();
         leftBtn.setText("Left");
         JButton rightBtn = new JButton();
         rightBtn.setText("Right");
@@ -43,7 +44,7 @@ public class JavaGame {
         leftBtn.addActionListener(new ActionListener()  
             {
                 public void actionPerformed(ActionEvent e) {
-                    playArea.moveLeft();
+                    playArea.setLeft();
                     if(!rightBtn.isEnabled()){
                         rightBtn.setEnabled(true);
                     }
@@ -53,10 +54,10 @@ public class JavaGame {
                 }
             }
         );
-
+        
         rightBtn.addActionListener(new ActionListener()  {
                 public void actionPerformed(ActionEvent e) {
-                    playArea.moveRight();
+                    playArea.setRight();
                     if(!leftBtn.isEnabled()){
                         leftBtn.setEnabled(true);
                     }
@@ -69,11 +70,11 @@ public class JavaGame {
         
         upBtn.addActionListener(new ActionListener()  {
                 public void actionPerformed(ActionEvent e) {
-                    playArea.moveUp();
+                    playArea.setUp();
                     if(!downBtn.isEnabled()){
                         downBtn.setEnabled(true);
                     }
-                    if(playArea.getSelectedY()==0){
+                    if(playArea.getSelectedY()<0){
                         upBtn.setEnabled(false);
                     }
                 }
@@ -82,7 +83,7 @@ public class JavaGame {
         
         downBtn.addActionListener(new ActionListener()  {
                 public void actionPerformed(ActionEvent e) {
-                    playArea.moveDown();
+                    playArea.setDown();
                     if(!upBtn.isEnabled()){
                         upBtn.setEnabled(true);
                     }
@@ -91,12 +92,43 @@ public class JavaGame {
                     }
                 }
             }
-        );
-        control.add(leftBtn);
+        );*/
+        
+        playArea.addKeyListener( new KeyListener() {
+            @Override
+            public void keyTyped( KeyEvent evt ) {
+            }
+
+            @Override
+            public void keyPressed( KeyEvent evt ) {
+                if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+                    playArea.setDown();
+                    System.out.println("DOWN");
+                }
+                if(evt.getKeyCode() == KeyEvent.VK_UP){
+                    playArea.setUp();
+                    System.out.println("UP");
+                }
+                if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                    playArea.setLeft();
+                    System.out.println("LEFT");
+                }
+                if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                    playArea.setRight();
+                    System.out.println("RIGHT");
+                }
+            }
+
+            @Override
+            public void keyReleased( KeyEvent evt ) {
+            }
+        } );
+        
+        /*control.add(leftBtn);
         control.add(rightBtn);
         control.add(upBtn);
         control.add(downBtn);
-        main.add(control, BorderLayout.SOUTH);
+        main.add(control, BorderLayout.SOUTH);*/
         window.setVisible(true);
-    }
+    }  
 }
